@@ -16,6 +16,7 @@ import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -88,6 +89,12 @@ public class AuthController {
 
         return ResponseEntity.created(location).body(new ApiResponse(true,
                 "New record created " + result.toString()));
+    }
+
+    @GetMapping("/nin-records")
+    public List<NinData> getRecords() {
+
+        return ninRepository.findAll();
     }
 
     private URI getUri(User tempUser) {

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NinRepository extends JpaRepository<NinData, Long> {
     Boolean existsByNin(String nin);
+    Boolean existsByPhoneNumber(String phoneNumber);
 }

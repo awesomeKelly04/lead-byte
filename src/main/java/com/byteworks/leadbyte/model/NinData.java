@@ -2,7 +2,6 @@ package com.byteworks.leadbyte.model;
 
 import com.byteworks.leadbyte.model.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,9 +12,6 @@ import java.io.Serializable;
 @Table(name = "nindata", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
                 "nin"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
         })
 })
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -40,7 +36,6 @@ public class NinData extends DateAudit implements Serializable {
     @Column(name = "surname")
     private String surname;
 
-    @NaturalId
     @NotBlank
     @Size(max = 40)
     @Email
