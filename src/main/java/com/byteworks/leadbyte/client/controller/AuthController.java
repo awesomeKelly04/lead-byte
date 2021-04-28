@@ -1,5 +1,6 @@
 package com.byteworks.leadbyte.client.controller;
 
+import com.byteworks.leadbyte.model.NinData;
 import com.byteworks.leadbyte.model.User;
 import com.byteworks.leadbyte.repository.NinRepository;
 import com.byteworks.leadbyte.repository.UserRepository;
@@ -25,11 +26,11 @@ public class AuthController {
     UserRepository userRepository;
 
     final
-    NinRepository roleRepository;
+    NinRepository ninRepository;
 
-    public AuthController(UserRepository userRepository, NinRepository roleRepository) {
+    public AuthController(UserRepository userRepository, NinRepository ninRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.ninRepository = ninRepository;
     }
 
     @PostMapping("/create-user")
@@ -70,11 +71,35 @@ public class AuthController {
                 "New user created " + result.toString()));
     }
 
+    @PostMapping("/add-record")
+    public ResponseEntity<?> createRecord(@Valid @RequestBody NinData nin) {
+        if(ninRepository.existsByNin(nin.getNin())) {
+            return new ResponseEntity(new ApiResponse(false, "Record already Entered!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        NinData new_data = new NinData(nin.getNin(), nin.getName(), nin.getSurname(), nin.getEmail(), nin.getDateOfBirth(), nin.getPhoneNumber(), nin.getHeadShot());
+
+        NinData result = ninRepository.save(new_data);
+
+
+        URI location = getUri(result);
+
+        return ResponseEntity.created(location).body(new ApiResponse(true,
+                "New record created " + result.toString()));
+    }
 
     private URI getUri(User tempUser) {
         return ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(tempUser.getUsername()).toUri();
+    }
+
+    private URI getUri(NinData tempNin) {
+        return ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/nins/{nin}")
+                .buildAndExpand(tempNin.getNin()).toUri();
     }
 
 }

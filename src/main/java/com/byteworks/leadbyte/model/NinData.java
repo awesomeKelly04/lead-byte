@@ -62,8 +62,7 @@ public class NinData extends DateAudit implements Serializable {
     public NinData() {
     }
 
-    public NinData(Long id, @NotBlank @Size(max = 11, min = 11) String nin, @NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 40) String surname, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 40) String dateOfBirth, @Size(max = 11) String phoneNumber, String headShot) {
-        this.id = id;
+    public NinData(@NotBlank @Size(max = 11, min = 11) String nin, @NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 40) String surname, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 40) String dateOfBirth, @Size(max = 11) String phoneNumber, String headShot) {
         this.nin = nin;
         this.name = name;
         this.surname = surname;
